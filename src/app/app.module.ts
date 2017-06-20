@@ -14,6 +14,8 @@ import {ShoppingListService} from "./shoping-list/shopping-list.service";
 import {AppRoutingModule} from "./app-routing-modules";
 import {FormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
+import { RecipeStartComponent } from './recipe/recipe-start/recipe-start.component';
+import { RecipeEditComponent } from './recipe/recipe-edit/recipe-edit.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import {HttpModule} from "@angular/http";
     RecipeDetailsComponent,
     RecipeItemComponent,
     ShopingEditComponent,
-    DropdownDirective
+    DropdownDirective,
+    RecipeStartComponent,
+    RecipeEditComponent
   ],
   imports: [
     BrowserModule,
