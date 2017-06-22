@@ -2,19 +2,20 @@ import {Recipe} from "./recipe.model";
 import {EventEmitter, Injectable} from "@angular/core";
 import {Ingredients} from "../shared/ingredients.model";
 import {ShoppingListService} from "../shoping-list/shopping-list.service";
+import {Subject} from "rxjs/Subject";
 
 @Injectable()
 export class RecipeService {
-  public recipeSelected = new EventEmitter<Recipe>();
+  public recipesChanged = new Subject<Recipe[]>();
   private recipes: Recipe[] = [
     new Recipe('Tasty Schnitzel', 'Super-tasty schnitzel - just awesome ',
-      'https://thumbs.dreamstime.com/z/gourmet-tasty-crumbled-schnitzel-crispy-fries-close-up-lemon-tomato-lettuce-50667370.jpg',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAx-Igvu20KrpEZoKGZVHPo0BD7LfF4fUIGwfISQVU2eLvaUj7+',
       [
         new Ingredients('Meat', 12),
         new Ingredients('French Fries', 2),
       ]),
     new Recipe('Big burger', 'what else you need to say?',
-      'https://s-media-cache-ak0.pinimg.com/236x/a2/d4/ea/a2d4eafff7482f4b4225cc6d73a3840c.jpg',
+      'http://betheme.muffingroupsc.netdna-cdn.com/be/burger/wp-content/uploads/2015/11/home_burger_pic5.jpg',
       [
         new Ingredients('Meat', 12),
         new Ingredients('Buns', 2),
@@ -28,9 +29,25 @@ export class RecipeService {
     return this.recipes.slice();
   }
 
+  addRecipe(recipe: Recipe) {
+    this.recipes.push(recipe);
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  updateRecipe(index: number, newRecipe: Recipe) {
+    this.recipes[index] = newRecipe;
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
   getRecipe(index: number) {
     return this.recipes[index];
   }
+
+  deleteRecipe(index: number) {
+    this.recipes.splice(index, 1);
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
   onAddIngredientsToShoppingList(ingredients: Ingredients[]) {
     this.slService.addIngredients(ingredients)
   }
